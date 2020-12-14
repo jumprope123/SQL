@@ -38,10 +38,15 @@ order by 최소연봉 desc ;
 -- 29. 부서 명, 위치 ID, 각 부서 별 사원 총 수, 각 부서 별 평균 연봉을 조회한다.
 --     평균 연봉은 소수점 2 자리까지만 표현한다.
 -- 조인 이용
+select department_name, location_id, count(employee_id), round(avg(salary),2) from employees e join departments d using (department_id) group by department_name;
 
-
--- 30. 총 사원 수 및 1995, 1996, 1997, 1998 년도 별 고용된 사원들의 총 수를 조회한다.
+-- 30. 총 사원 수 및 2001, 2002, 2003, 2004 년도 별 고용된 사원들의 총 수를 조회한다.
 -- 복합 쿼리문
+select (select count(employee_id) from employees where year(hire_date) = 2001) 2001년입사,
+       (select count(employee_id) from employees where year(hire_date) = 2002) 2002년입사,
+       (select count(employee_id) from employees where year(hire_date) = 2003) 2003년입사,
+       (select count(employee_id) from employees where year(hire_date) = 2004) 2004년입사,
+       (select count(employee_id) from employees)'총 사원수';
 
 -- 31. 부서번호별 사원수를 조회하라. (부서번호 오름차순 정렬)
 SELECT department_id 부서번호,
@@ -55,3 +60,7 @@ SELECT department_id,
        round(avg(salary)) 평균
 from employees
 group by department_id ,job_id;
+
+select substring_index() from employees;
+
+select if(1>5, 1, if(2>5, 1, 2));

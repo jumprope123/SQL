@@ -47,20 +47,39 @@ select last_name,department_name,l.location_id,city from employees e inner join 
 where commission_pct is not null and city = 'oxford';
 
 
+-- 자신의 매니저의 이름과 고용일을 조회하세요
+select*
+from employees mgr join employees emp
+    on emp.manager_id = mgr.employee_id ;
+
 # 자신의 매니저보다 먼저 고용된 사원들의
 # LAST_NAME 및 고용일을 조회하세요.
-select * from employees e1 inner join employees e2 on e1.employee_id = e2.manager_id;
+select
+    emp.last_name 사원명,
+    emp.hire_date 사원입사일,
+    mgr.last_name 매니저명,
+    mgr.hire_date 매니저입사일
+from employees mgr join employees emp
+on emp.manager_id = mgr.employee_id
+where emp.hire_date < mgr.hire_date;
 
 
-부서별 사원수를 조회하세요
-단, 부서명도 함께 출력합니다
+# 부서별 사원수를 조회하세요
+# 단, 부서명도 함께 출력합니다
+select department_name, department_id, count(department_id) 사원수 from departments inner join employees e
+    using (department_id)
+group by department_name
+order by department_name;
 
 
+# 부서별 사원수를 조회하세요
+# 단, 부서명도 함께 출력하고
+# 단, 사원수가 0이어도 부서명을 출력합니다
 
-부서별 사원수를 조회하세요
-단, 부서명도 함께 출력하고
-단, 사원수가 0이어도 부서명을 출력합니다
-
+select department_name,count(employee_id) 사원수 from employees e right join departments d
+    using (department_id)
+group by department_name
+order by 사원수 desc ;
 
 
 
